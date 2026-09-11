@@ -1,0 +1,20 @@
+            Népesség 2025
+[1] megye adatai
+[2] Telepules típusai
+[3]
+[x]
+
+1.
+Kérem a megye kódját:
+
+Települések száma:
+Összes lakos
+Városok lakosai összesen
+
+2.
+Települések típusai
+
+[a] község
+[b] város
+
+Település neve: Lakosság Száma (2 oszlop, lapozás, x megszakitas, 20 egy lapon, vissza lapozas, betuvel kezdodo cuccok(opc))
