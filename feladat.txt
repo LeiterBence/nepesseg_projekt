@@ -1,7 +1,6 @@
             Népesség 2025
 [1] megye adatai
 [2] Telepules típusai
-[3]
 [x]
 
 1.
