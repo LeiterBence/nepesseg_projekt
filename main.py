@@ -26,7 +26,7 @@ def menu_ui():
     print()
     print("-" * 60)
     print()
-    mainmenu_valasztas = input("Válassz a továbblépéshez: ")
+    mainmenu_valasztas = input("> ")
     return mainmenu_valasztas
 
 #1. valaszas
@@ -35,21 +35,25 @@ def megyeadatok_ui(telepulesek):
 
 
     bekeres_megyekód = input("Kérem a megye kódját: ")
-
-    megye_telepules_adatok = megyetelepulesek(telepulesek,bekeres_megyekód)
     print()
+    bekert_megyekod_letezik = False
+    for i in telepulesek:
+        if i["megyekod"] == bekeres_megyekód:
+            bekert_megyekod_letezik = True
+            break
     print("-"*60)
-    print(f"Települések száma: {megye_telepules_adatok[0]} db")
-    print(f"Összes lakos: {megye_telepules_adatok[1]} fő")
-    print(f"Városok lakosai összesen: {megye_telepules_adatok[2]} fő")
-
+    if bekert_megyekod_letezik:
+        megye_telepules_adatok = megyetelepulesek(telepulesek,bekeres_megyekód)
+        print(f"Települések száma: {megye_telepules_adatok[0]} db")
+        print(f"Összes lakos: {megye_telepules_adatok[1]} fő")
+        print(f"Városok lakosai összesen: {megye_telepules_adatok[2]} fő")
+    else:
+        print("Hiba, nincs ilyen megye!".center(60))
+        
     print("-"*60)
-
     print()
-    print("[Enter] Visszalépés")
-    print()
-    input()
-
+    print("[Enter] Vissza a menübe ")
+    input("> ")
     
 
 def megyetelepulesek(telepulesek, bekeres_megyekod):
@@ -62,6 +66,7 @@ def megyetelepulesek(telepulesek, bekeres_megyekod):
             osszlakos += i["ferfi_szam"] + i["no_szam"]
             if i["telepules_tipus"] == "város" or i["telepules_tipus"] == "fővárosi kerület" or i["telepules_tipus"] == "vármegye székhely" or i["telepules_tipus"] == "vármegyei jogú város":
                 varoslakos += i["ferfi_szam"] + i["no_szam"]
+        
     return [telepulesszamok, osszlakos,varoslakos]
 
 #2. valasztas
@@ -77,11 +82,18 @@ def telepules_tipusok_ui(telepulesek):
     print("-"*60)
     print()
     print("[x] Vissza")
-    tipus_bekeres = input(">")
-    telepules_tipus_listazas(telepulesek,tipus_bekeres)
+    tipus_bekeres = input("> ")
     if tipus_bekeres == "x":
         return
-
+    elif tipus_bekeres == "a" or tipus_bekeres == "b":
+        telepules_tipus_listazas(telepulesek,tipus_bekeres)
+    else:
+        os.system("cls" if os.name == "nt" else "clear")
+        print("Helytelen input")
+        print()
+        print("[Enter] Vissza a menübe ")
+        input("> ")
+        return
 def telepules_tipus_listazas(telepulesek, tipus_bekeres):
     kivalasztott_telepulesek = telepules_kivalasztas(telepulesek, tipus_bekeres)
     osszes_oldal = (len(kivalasztott_telepulesek) + 20 -1) // 20
@@ -114,14 +126,14 @@ def telepules_tipus_listazas(telepulesek, tipus_bekeres):
         print("[x] Kilépés")
 
 
-        lista_iranyitas_bekeres = input(">")
+        lista_iranyitas_bekeres = input("> ")
 
         if lista_iranyitas_bekeres == "d":
             if aktualis_oldal < osszes_oldal -1:
                 aktualis_oldal += 1
             else:
                 print("Ez az utolsó oldal!")
-                input("Enter a továbblépéshez")
+                input("Enter a továbblépéshez ")
         elif lista_iranyitas_bekeres == "a":
             if aktualis_oldal > 0:
                 aktualis_oldal -=1
@@ -155,6 +167,8 @@ def main():
         elif valasztas == "2":
             telepules_tipusok_ui(telepulesek)
         elif valasztas == "x":
+            print("Kilépés...")
+            print()
             break
 main()
 
